@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Manipulation Tool</title>
+    <meta name="title" content="PDF Manipulation Tool">
+    <meta name="Description" content="PDF Manipulation Tool | Easy to use | Easy to Understand | Created just for Fun">
+    <meta name="keywords" content="PDF Manipulation Tool, pdf merger, Pdf Demerger">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        input,
+        button {
+            margin-top: 10px;
+        }
+
+        .section-heading {
+            font-weight: 900;
+            font-family: 'elephant';
+            text-decoration: underline;
+            color: rgb(255, 85, 0);
+            filter: drop-shadow(1px 2px 3px gray);
+        }
+
+        .container1 {
+            margin: 40px auto 40px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .inputs {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inputs h2 {
+            margin: 0;
+        }
+
+        .buttons {
+            display: flex !important;
+            gap: 40px;
+        }
+
+        #pdf-preview {
+            display: none; /* Hide preview section initially */
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #pdf-preview iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .mt-40 {
+            margin-top: 25px;
+        }
+
+        .m-auto-center {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .red {
+            font-style: italic;
+            color: rgb(0, 0, 0);
+        }
+
+        .red big {
+            color: red;
+            font-weight: 900;
+        }
+        body {
+            
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            color: white;
+            position: relative;
+        }
+
+        .logo {
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'elephant';
+            text-decoration: underline;
+            /* color: rgb(255, 85, 0); */
+            filter: drop-shadow(0px 1px 1px gray);
+            font-size: 1.5em;
+        }
+
+        .menu-toggle {
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-menu ul li {
+            border-bottom: 1px solid #444;
+        }
+
+        .nav-menu ul li a {
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-menu ul li a:hover {
+            background-color: #555;
+        }
+
+        #reload-count {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: white;
+        }
+    </style>
+    <header>
+        <div class="logo" onclick="window.location.replace('index.html')">PDF Manipulation Tool</div>
+        <div class="menu-toggle" id="menu-toggle">
+            &#9776; <!-- Hamburger icon -->
+        </div>
+        <nav class="nav-menu" id="nav-menu">
+            <ul>
+                <li><a href="pdf-merger.html">PDF Merger</a></li>
+                <li><a href="pdf-demerge.html">PDF De-merger</a></li>
+                <li><a href="page-addition.html">Add page to existing pdf</a></li>
+                <li><a href="pdf-page-delete.html">Delete page from Existing pdf</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <div class="container1">
+        <h1 class="text-center section-heading">Insert Page into PDF</h1>
+        <form id="pdfForm">
+            <div class="inputs d-flex text-center">
+                <label for="pdfInput">Select the main PDF file:</label>
+                <input type="file" id="pdfInput" accept="application/pdf" required>
+            </div>
+
+            <div class="inputs d-flex text-center">
+                <label for="pageInput">Select the PDF file to insert:</label>
+                <input type="file" id="pageInput" accept="application/pdf" required>
+            </div>
+            <div class="inputs d-flex text-center">
+                <label for="positionInput">Position to insert the page (1-based index):</label>
+                <input type="number" id="positionInput" min="1" required>
+            </div>
+
+            <button type="button" onclick="processPDF()" class="btn btn-primary">Process PDF</button>
+
+        </form>
+
+        <div id="pdf-preview" class="mt-20">
+            <iframe id="pdfIframe" src="" frameborder="0"></iframe>
+        </div>
+
+        <div id="result" class="mt-40"></div>
+    </div>
+    <section class="Footer" id="Footer">
+        <style>
+             .Footer{
+        max-width: 100%;
+        position: sticky;
+        background-color: #333;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #reload-count{
+        max-width: 100%;
+        width: 100%;
+    }
+        </style>
+        <div id="reload-count">Page Reloaded: 0 times</div>
+    </section>
+
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+    <script>
+        async function processPDF() {
+            const pdfInput = document.getElementById('pdfInput').files[0];
+            const pageInput = document.getElementById('pageInput').files[0];
+            let positionInput = parseInt(document.getElementById('positionInput').value, 10);
+
+            if (!pdfInput || !pageInput) {
+                alert('Please select both PDF files.');
+                return;
+            }
+
+            if (isNaN(positionInput) || positionInput < 1) {
+                alert('Please enter a valid position (1-based index).');
+                return;
+            }
+
+            const pdfBytes = await pdfInput.arrayBuffer();
+            const pageBytes = await pageInput.arrayBuffer();
+
+            const { PDFDocument } = PDFLib;
+
+            const pdfDoc = await PDFDocument.load(pdfBytes);
+            const pageDoc = await PDFDocument.load(pageBytes);
+
+            const [pageToInsert] = await pdfDoc.copyPages(pageDoc, [0]);
+            const totalPages = pdfDoc.getPageCount();
+
+            if (positionInput > totalPages) {
+                alert('Position exceeds the number of pages in the original PDF. Adjusting to the end.');
+                positionInput = totalPages;
+            }
+
+            pdfDoc.insertPage(positionInput - 1, pageToInsert);
+
+            const modifiedPdfBytes = await pdfDoc.save();
+
+            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+
+            // Show the preview section and update iframe source
+            const pdfPreviewDiv = document.getElementById('pdf-preview');
+            pdfPreviewDiv.style.display = 'block';
+
+            const pdfIframe = document.getElementById('pdfIframe');
+            pdfIframe.src = url;
+
+            // Update result div
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<a class="btn btn-primary mt-20" href="${url}" download="modified.pdf">Download modified PDF</a>`;
+        }
+    // Script for Page reload count and Humberger
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get elements
+            const menuToggle = document.getElementById('menu-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const reloadCountElement = document.getElementById('reload-count');
+
+            // Initialize reload count from localStorage or set to 0
+            let reloadCount = parseInt(localStorage.getItem('reloadCount'), 10) || 0;
+
+            // Update reload count in localStorage and on page
+            reloadCount++;
+            localStorage.setItem('reloadCount', reloadCount);
+            reloadCountElement.textContent = `Page Reloaded: ${reloadCount} times`;
+
+            // Toggle menu visibility
+            menuToggle.addEventListener('click', () => {
+                navMenu.style.display = navMenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
